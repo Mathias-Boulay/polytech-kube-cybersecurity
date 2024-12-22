@@ -1,8 +1,11 @@
+# This deployement will test the rule for prod targets
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nouns
   namespace: sentence
+  labels:
+    target: prod
 spec:
   replicas: 1
   selector:
@@ -12,9 +15,10 @@ spec:
     metadata:
       labels:
         app: nouns
+        target: prod
     spec:
       containers:
-      - name: nouns
-        image: ghcr.io/remi-espie/sentences/nouns:latest
-        ports:
-        - containerPort: 8081
+        - name: nouns
+          image: ghcr.io/remi-espie/sentences/nouns:latest
+          ports:
+            - containerPort: 8081

@@ -1,0 +1,19 @@
+# Ingress for the aggregator
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sentence-ingress
+  namespace: sentence
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aggregator
+                port:
+                  number: 80

@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: force-always-pull
+spec:
+  rules:
+    - name: force-always-pull
+      match:
+        all:
+          - resources:
+              kinds:
+                - Pod
+              selector:
+                matchLabels:
+                  target: prod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            containers:
+              # According to the doc, not using a universal match for name blocks me from properly merging stuff into the containers array
+              # Very straightforward, gotta love it.
+              - (name): "*"
+                imagePullPolicy: "Always"

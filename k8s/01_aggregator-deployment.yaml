@@ -1,0 +1,27 @@
+# Note that this deployement is made to comply with the rules for kyverno
+# This allows to test for policies
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aggregator
+  namespace: sentence
+  labels:
+    target: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aggregator
+  template:
+    metadata:
+      labels:
+        app: aggregator
+        target: dev
+    spec:
+      containers:
+        - name: aggregator
+          image: ghcr.io/remi-espie/sentences/aggregator:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
